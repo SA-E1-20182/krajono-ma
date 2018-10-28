@@ -6,12 +6,13 @@ class FlatListItem extends React.Component {
   _onPress = () => this.props.onPressItem(this.props.id)
   render() {
     const { item } = this.props;
+    console.log(item);
     return (
       <TouchableOpacity onPress={this._onPress}>
         <View 
           style={{flex: 1, flexDirection: 'column'}}>
-          <Text>{item.name}</Text>
-          <Text>{item.date}</Text>
+          <Text>{item.key}</Text>
+          <Text>{item.description}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -24,22 +25,30 @@ export default class HomeScreen extends React.Component {
   };
 
   state = {
-    projects: ''
+    items: []
   }
   
-
-  // componentWillMount() {
-  //   fetch("http://192.168.1.58:7999", {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ query: '{ allProjects { id, name, genre, description } }' }),
-  //   })
-  //   // .then(r => r.json())
-  //   // .then(data => {
-  //   //     this.setState({ projects: data.data.allProjects });
-  //   // });
-  //   .then(r => console.log(r.text()));
-  // }
+  componentDidMount() {
+    fetch("http://192.168.1.58:7999/graphql", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: '{ allProjects { id, name, genre, description } }' }),
+    })
+    .then(r => r.json())
+    .then(data => {
+        let projects = data.data.allProjects;
+        let items = [];
+        projects.forEach((project) => {
+          items.push({
+            key: project.name,
+            id: project.id,
+            description: project.description
+          })
+        })
+        
+        this.setState({ items });
+    });
+  }
 
   _onPressItem = (id) => {
     const { navigate } = this.props.navigation;
@@ -47,12 +56,13 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    const { items } = this.state;
     return (
       <View>
         <FlatList
-          data={[{key: 'item1', name: 'Proyecto 1', date: 'ayer'}, {key: 'item2', name: 'Proyecto 2', date: 'hoy'}]}
+          data={items}
           renderItem={({item, separators}) => (
-            <FlatListItem item={item} onPressItem={this._onPressItem} />
+            <FlatListItem item={item} onPressItem={() => this._onPressItem(item.id)} />
           )} 
         />
       </View>
