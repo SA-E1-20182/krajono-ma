@@ -74,11 +74,7 @@ export default class HomeScreen extends React.Component {
 
   _onPressItem = (page, id) => {
     const { navigate } = this.props.navigation;
-    if(page === 'Profile'){
-      navigate(page, {id});
-    }else{
-      navigate(page); // AIUDA
-    }
+      navigate('Profile', {id});
     
   }
 
@@ -96,7 +92,7 @@ export default class HomeScreen extends React.Component {
             />
           </View>
           <View style={styles.sectionContainer}>
-            <Button color={'purple'} title="Crear un proyecto" onPress={this._onPressItem('CreateProject', 0)} />
+            <Button color={'purple'} title="Crear un proyecto"  />
           </View>
         </View>
       </ScrollView>
