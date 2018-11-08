@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, TextInput } from 'react-native';
 
 
 import { Constants } from 'expo';
@@ -89,7 +89,7 @@ export default class CreateProjectScreen extends React.Component {
               <View style={styles.container}>
                 <View style={styles.sectionContainer}>
                   <Text>Nombre del proyecto</Text>
-                  <TextInput style={styles.inputText} onChangeText={this.handleInputChange} value/> 
+                  <TextInput style={styles.inputText} onChangeText={this.handleInputChange}/> 
                 </View>
                 <View style={styles.sectionContainer}>
                   <Text>Género</Text>
