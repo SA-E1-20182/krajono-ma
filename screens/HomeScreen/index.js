@@ -72,9 +72,9 @@ export default class HomeScreen extends React.Component {
     });
   }
 
-  _onPressItem = (page, id) => {
+  _onPressItem = (id) => {
     const { navigate } = this.props.navigation;
-      navigate('Profile', {id});
+    navigate('Profile', {id});
     
   }
 
@@ -87,7 +87,7 @@ export default class HomeScreen extends React.Component {
             <FlatList
               data={items}
               renderItem={({item, separators}) => (
-                <FlatListItem item={item} onPressItem={() => this._onPressItem('Profile', item.id)} />
+                <FlatListItem item={item} onPressItem={() => this._onPressItem(item.id)} />
               )} 
             />
           </View>
