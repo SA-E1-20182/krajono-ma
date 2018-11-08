@@ -17,7 +17,7 @@ const App = createStackNavigator(
     CreateProject: {screen: CreateProjectScreen}
   }, 
   {
-    initialRouteName: 'CreateProject',
+    initialRouteName: 'Home',
   }
 );
 

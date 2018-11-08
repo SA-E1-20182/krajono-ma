@@ -1,6 +1,9 @@
 import React from 'react';
-import { View, Text, Button, TouchableOpacity } from 'react-native';
+import {StyleSheet, View, Text, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import { StackNavigator } from "react-navigation";
+import { Constants } from 'expo';
+
 
 class FlatListItem extends React.Component {
   _onPress = () => this.props.onPressItem(this.props.id)
@@ -19,6 +22,23 @@ class FlatListItem extends React.Component {
   }
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingTop: Constants.statusBarHeight
+  },
+  sectionContainer: {
+    padding: 40
+  },
+  inputText: {
+    height: 40,
+    borderColor: 'purple',
+    borderWidth: 2
+  },
+});
+
+
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'Krajono',
@@ -27,6 +47,8 @@ export default class HomeScreen extends React.Component {
   state = {
     items: []
   }
+
+  
   
   componentDidMount() {
     fetch("http://192.168.1.58:7999/graphql", {
@@ -50,22 +72,36 @@ export default class HomeScreen extends React.Component {
     });
   }
 
-  _onPressItem = (id) => {
+  _onPressItem = (page, id) => {
     const { navigate } = this.props.navigation;
-    navigate('Profile', {id})
+    if(page === 'Profile'){
+      navigate(page, {id});
+    }else{
+      navigate(page); // AIUDA
+    }
+    
   }
 
   render() {
     const { items } = this.state;
     return (
-      <View>
-        <FlatList
-          data={items}
-          renderItem={({item, separators}) => (
-            <FlatListItem item={item} onPressItem={() => this._onPressItem(item.id)} />
-          )} 
-        />
-      </View>
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.sectionContainer}>
+            <FlatList
+              data={items}
+              renderItem={({item, separators}) => (
+                <FlatListItem item={item} onPressItem={() => this._onPressItem('Profile', item.id)} />
+              )} 
+            />
+          </View>
+          <View style={styles.sectionContainer}>
+            <Button color={'purple'} title="Crear un proyecto" onPress={this._onPressItem('CreateProject', 0)} />
+          </View>
+        </View>
+      </ScrollView>
+
     );
   }
 }
+

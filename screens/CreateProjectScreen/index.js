@@ -1,7 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, ScrollView, TextInput } from 'react-native';
-
-
 import { Constants } from 'expo';
 
 const genreOptions = [  // TODO: there ought to be some collection of these somewhere!
@@ -10,14 +8,32 @@ const genreOptions = [  // TODO: there ought to be some collection of these some
   { key: 'historical', text: 'Histórico', value: 'Histórico' },
 ]
 
-   
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      paddingTop: Constants.statusBarHeight
+    },
+    sectionContainer: {
+      padding: 40
+    },
+    inputText: {
+      height: 40,
+      borderColor: 'purple',
+      borderWidth: 2
+    },
+  });  
 
 export default class CreateProjectScreen extends React.Component {
   static navigationOptions = {
     title: 'Crear proyecto',
   };
 
-    constructor() {
+  componentDidMount() {
+    const { navigation } = this.props;
+  }
+
+   constructor() {
       super();
 
 
@@ -104,24 +120,5 @@ export default class CreateProjectScreen extends React.Component {
         );
     }
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight
-  },
-  sectionContainer: {
-    padding: 40
-  },
-  inputText: {
-    height: 40,
-    borderColor: 'purple',
-    borderWidth: 2
-  },
-});
-
-
 
 
