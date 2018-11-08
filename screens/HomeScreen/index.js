@@ -28,7 +28,7 @@ export default class HomeScreen extends React.Component {
     items: []
   }
   
-  componentDidMount() {
+  /*componentDidMount() {
     fetch("http://192.168.1.58:7999/graphql", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -49,7 +49,7 @@ export default class HomeScreen extends React.Component {
         this.setState({ items });
     });
   }
-
+*/
   _onPressItem = (id) => {
     const { navigate } = this.props.navigation;
     navigate('Profile', {id})
