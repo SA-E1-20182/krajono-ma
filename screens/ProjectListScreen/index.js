@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-nativ
 import { Constants } from 'expo';
 import { FlatList } from 'react-native-gesture-handler';
 import { StackNavigator } from "react-navigation";
+import { Separator } from "/components/Separator"
 
 const styles = StyleSheet.create({
     container: {
@@ -37,6 +38,7 @@ export default class ProjectListScreen extends React.Component {
         items: []
     }
 
+
     componentDidMount() {
         fetch("http://192.168.1.58:7999/graphql", {
             method: 'POST',
@@ -67,12 +69,26 @@ export default class ProjectListScreen extends React.Component {
         <ScrollView>
             <View style={styles.container}>
                 <View style={styles.sectionContainer}>
-                    <FlatList
-                    data={items}
-                    renderItem={({item, separators}) => (
-                        <FlatListItem item={item} onPressItem={() => this._onPressItem(item.id)} />
-                    )} 
-                    />
+                    <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
+                        <FlatList
+                            data={items}
+                            renderItem={({item, separators}) => (
+                                <FlatListItem 
+                                    item={item} onPressItem={() => this._onPressItem(item.id)}
+                                    subtitle={'Rubén es un desarrollador decente'} 
+                                    containerStyle={{ borderBottomWidth: 0 }}
+                                />
+                                <View
+                                    style={{
+                                    height: 1,
+                                    width: "100%",
+                                    backgroundColor: "#CED0CE",
+                                    marginLeft: "0%"
+                                    }}
+                                />
+                            )} 
+                        />
+                    </List>
                 </View>
             </View>
         </ScrollView>
