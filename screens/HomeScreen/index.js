@@ -34,11 +34,6 @@ export default class HomeScreen extends React.Component {
     this.login = this.login.bind(this);
   }
 
-  _onPressItem = (id) => {
-    const { navigate } = this.props.navigation;
-    navigate('Profile', {id});
-  }
-
   login(id="ruben") {
     const { navigate } = this.props.navigation;
     navigate('ProjectList', {id});

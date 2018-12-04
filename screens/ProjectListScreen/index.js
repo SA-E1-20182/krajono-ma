@@ -60,22 +60,28 @@ export default class ProjectListScreen extends React.Component {
         });
     }
 
-  render() {
-      const { items } = this.state;
 
-      return (
-        <ScrollView>
-            <View style={styles.container}>
-                <View style={styles.sectionContainer}>
-                    <FlatList
-                    data={items}
-                    renderItem={({item, separators}) => (
-                        <FlatListItem item={item} onPressItem={() => this._onPressItem(item.id)} />
-                    )} 
-                    />
+    _onPressItem = (id) => {
+        const { navigate } = this.props.navigation;
+        navigate('Project', {id});
+    }
+
+    render() {
+        const { items } = this.state;
+
+        return (
+            <ScrollView>
+                <View style={styles.container}>
+                    <View style={styles.sectionContainer}>
+                        <FlatList
+                        data={items}
+                        renderItem={({item, separators}) => (
+                            <FlatListItem item={item} onPressItem={() => this._onPressItem(item.id)} />
+                        )} 
+                        />
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
-      );
-  }
-}
+            </ScrollView>
+        );
+    }
+    }

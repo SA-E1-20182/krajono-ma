@@ -4,7 +4,7 @@ import {
 import React from 'react';
 import { AppRegistry } from 'react-native';
 import HomeScreen from './screens/HomeScreen';
-import ProfileScreen from './screens/ProfileScreen';
+import ProjectScreen from './screens/ProjectScreen';
 import PageScreen from './screens/PageScreen';
 import CreateProjectScreen from './screens/CreateProjectScreen';
 import { Provider as PaperProvider } from 'react-native-paper';
@@ -14,7 +14,7 @@ const App = createStackNavigator(
   {
     Home: { screen: HomeScreen },
     ProjectList: { screen: ProjectListScreen },
-    Profile: { screen: ProfileScreen },
+    Project: { screen: ProjectScreen },
     Page: { screen: PageScreen },
     CreateProject: {screen: CreateProjectScreen}
   }, 
