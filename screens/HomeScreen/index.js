@@ -1,81 +1,47 @@
 import React from 'react';
-import {StyleSheet, View, Text, Button, TouchableOpacity, ScrollView } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-import { StackNavigator } from "react-navigation";
-import { Constants } from 'expo';
-
-
-class FlatListItem extends React.Component {
-  _onPress = () => this.props.onPressItem(this.props.id)
-  render() {
-    const { item } = this.props;
-    console.log(item);
-    return (
-      <TouchableOpacity onPress={this._onPress}>
-        <View 
-          style={{flex: 1, flexDirection: 'column'}}>
-          <Text>{item.key}</Text>
-          <Text>{item.description}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
-}
+import {StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight
+  input: {
+      margin: 15,
+      height: 40,
+      borderColor: '#7a42f4',
+      borderWidth: 1
   },
-  sectionContainer: {
-    padding: 40
+  submitButton: {
+      backgroundColor: '#7a42f4',
+      padding: 10,
+      margin: 15,
+      height: 40,
   },
-  inputText: {
-    height: 40,
-    borderColor: 'purple',
-    borderWidth: 2
-  },
+  submitButtonText:{
+      color: 'white'
+  }
 });
-
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'Krajono',
   };
 
-  state = {
-    items: []
-  }
+  constructor() {
+    super();
 
-  
-  
-  componentDidMount() {
-    fetch("http://192.168.1.58:7999/graphql", {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: '{ allProjects { id, name, genre, description } }' }),
-    })
-    .then(r => r.json())
-    .then(data => {
-        let projects = data.data.allProjects;
-        let items = [];
-        projects.forEach((project) => {
-          items.push({
-            key: project.name,
-            id: project.id,
-            description: project.description
-          })
-        })
-        
-        this.setState({ items });
-    });
+    this.state = {
+      items: [],
+    }
+
+    this.login = this.login.bind(this);
   }
 
   _onPressItem = (id) => {
     const { navigate } = this.props.navigation;
     navigate('Profile', {id});
-    
+  }
+
+  login(id="ruben") {
+    const { navigate } = this.props.navigation;
+    navigate('ProjectList', {id});
   }
 
   render() {
@@ -83,21 +49,31 @@ export default class HomeScreen extends React.Component {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <View style={styles.sectionContainer}>
-            <FlatList
-              data={items}
-              renderItem={({item, separators}) => (
-                <FlatListItem item={item} onPressItem={() => this._onPressItem(item.id)} />
-              )} 
-            />
-          </View>
-          <View style={styles.sectionContainer}>
-            <Button color={'purple'} title="Crear un proyecto"  />
-          </View>
+          <View style = {styles.container}>
+            <TextInput style = {styles.input}
+                underlineColorAndroid = "transparent"
+                placeholder = "  Username"
+                placeholderTextColor = "#9a73ef"
+                autoCapitalize = "none"
+                onChangeText = {this.handleEmail}/>
+            
+            <TextInput style = {styles.input}
+                underlineColorAndroid = "transparent"
+                placeholder = "  Password"
+                placeholderTextColor = "#9a73ef"
+                autoCapitalize = "none"
+                onChangeText = {this.handlePassword}/>
+            
+            <TouchableOpacity
+                style = {styles.submitButton}
+                onPress = {
+                  () => this.login(this.state.email, this.state.password)
+                }>
+                <Text style = {styles.submitButtonText}> Submit </Text>
+            </TouchableOpacity>
+          </View> 
         </View>
       </ScrollView>
-
     );
   }
 }
-
