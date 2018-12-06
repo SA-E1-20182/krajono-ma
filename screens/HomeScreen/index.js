@@ -29,14 +29,61 @@ export default class HomeScreen extends React.Component {
 
     this.state = {
       items: [],
+      email: '',
+      password: ''
     }
 
+    this.handleEmail = this.handleEmail.bind(this);
+    this.handlePassword = this.handlePassword.bind(this);
     this.login = this.login.bind(this);
   }
 
-  login(id="ruben") {
-    const { navigate } = this.props.navigation;
-    navigate('ProjectList', {id});
+  login() {
+    const { email, password } = this.state;
+      const query =  `mutation CreateSession($input: SessionInput!) {
+          createSession(auth: $input) {
+              jwt
+          }
+      }`
+
+      fetch(process.env.REACT_APP_API_URL, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+              query,
+              variables: {
+                input: {
+                    auth: {
+                        email, password
+                    }
+                }
+              }
+          })
+      })
+      .then(r => {console.log(r); return r})
+      .then(data => {
+          console.log(data)
+          this.props.dispatch(login(data.data.createSession.jwt));
+
+      })
+      .catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+        // ADD THIS THROW error
+        throw error;
+      });
+  }
+
+  handleEmail(e) {
+      const { value } = e;
+      this.setState({ email: value });
+  }
+
+  handlePassword(e) {
+      const { value } = e;
+      this.setState({ password: value });
   }
 
   render() {
@@ -50,23 +97,23 @@ export default class HomeScreen extends React.Component {
                 placeholder = "  Username"
                 placeholderTextColor = "#9a73ef"
                 autoCapitalize = "none"
-                onChangeText = {this.handleEmail}/>
-            
+                onChangeText = {(this.handleEmail)}/>
+
             <TextInput style = {styles.input}
                 underlineColorAndroid = "transparent"
                 placeholder = "  Password"
                 placeholderTextColor = "#9a73ef"
                 autoCapitalize = "none"
                 onChangeText = {this.handlePassword}/>
-            
+
             <TouchableOpacity
                 style = {styles.submitButton}
                 onPress = {
-                  () => this.login(this.state.email, this.state.password)
+                  () => this.login()
                 }>
                 <Text style = {styles.submitButtonText}> Submit </Text>
             </TouchableOpacity>
-          </View> 
+          </View>
         </View>
       </ScrollView>
     );

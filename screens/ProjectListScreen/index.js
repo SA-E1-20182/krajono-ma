@@ -3,7 +3,7 @@ import {StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-nativ
 import { Constants } from 'expo';
 import { FlatList } from 'react-native-gesture-handler';
 import { StackNavigator } from "react-navigation";
-import { Separator } from "/components/Separator"
+//import { Separator } from "/components/Separator"
 
 const styles = StyleSheet.create({
     container: {
@@ -23,7 +23,7 @@ class FlatListItem extends React.Component {
       console.log(item);
       return (
         <TouchableOpacity onPress={this._onPress}>
-          <View 
+          <View
             style={{flex: 1, flexDirection: 'column'}}>
             <Text>{item.key}</Text>
             <Text>{item.description}</Text>
@@ -57,7 +57,7 @@ export default class ProjectListScreen extends React.Component {
                 description: project.description
             })
             })
-            
+
             this.setState({ items });
         });
     }
@@ -79,9 +79,9 @@ export default class ProjectListScreen extends React.Component {
                             data={items}
                             renderItem={({item, separators}) => (
                                 <View>
-                                    <FlatListItem 
+                                    <FlatListItem
                                         item={item} onPressItem={() => this._onPressItem(item.id)}
-                                        subtitle={'Rubén es un desarrollador decente'} 
+                                        subtitle={'Rubén es un desarrollador decente'}
                                         containerStyle={{ borderBottomWidth: 0 }}
                                     />
                                     <View
@@ -93,7 +93,7 @@ export default class ProjectListScreen extends React.Component {
                                         }}
                                     />
                                 </View>
-                            )} 
+                            )}
                         />
                     </List>
                 </View>
