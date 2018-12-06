@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-nativ
 import { Constants } from 'expo';
 import { FlatList } from 'react-native-gesture-handler';
 import { StackNavigator } from "react-navigation";
+import { Separator } from "/components/Separator"
 
 const styles = StyleSheet.create({
     container: {
@@ -37,6 +38,7 @@ export default class ProjectListScreen extends React.Component {
         items: []
     }
 
+
     componentDidMount() {
         fetch("http://192.168.1.58:7999/graphql", {
             method: 'POST',
@@ -60,7 +62,6 @@ export default class ProjectListScreen extends React.Component {
         });
     }
 
-
     _onPressItem = (id) => {
         const { navigate } = this.props.navigation;
         navigate('Project', {id});
@@ -70,18 +71,34 @@ export default class ProjectListScreen extends React.Component {
         const { items } = this.state;
 
         return (
-            <ScrollView>
-                <View style={styles.container}>
-                    <View style={styles.sectionContainer}>
+        <ScrollView>
+            <View style={styles.container}>
+                <View style={styles.sectionContainer}>
+                    <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
                         <FlatList
-                        data={items}
-                        renderItem={({item, separators}) => (
-                            <FlatListItem item={item} onPressItem={() => this._onPressItem(item.id)} />
-                        )} 
+                            data={items}
+                            renderItem={({item, separators}) => (
+                                <View>
+                                    <FlatListItem 
+                                        item={item} onPressItem={() => this._onPressItem(item.id)}
+                                        subtitle={'Rubén es un desarrollador decente'} 
+                                        containerStyle={{ borderBottomWidth: 0 }}
+                                    />
+                                    <View
+                                        style={{
+                                        height: 1,
+                                        width: "100%",
+                                        backgroundColor: "#CED0CE",
+                                        marginLeft: "0%"
+                                        }}
+                                    />
+                                </View>
+                            )} 
                         />
-                    </View>
+                    </List>
                 </View>
-            </ScrollView>
+            </View>
+        </ScrollView>
         );
     }
     }
