@@ -3,7 +3,6 @@ import {StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-nativ
 import { Constants } from 'expo';
 import { FlatList } from 'react-native-gesture-handler';
 import { StackNavigator } from "react-navigation";
-import { Separator } from "/components/Separator"
 
 const styles = StyleSheet.create({
     container: {
